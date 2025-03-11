@@ -1,0 +1,7 @@
+{
+    "debug":true,
+    "blockchain_address":"HTTP://127.0.0.1:7545",
+    "authorized_address":[0,1,2],
+    "client_address":"127.0.0.2:80",
+    "use_OSM":true
+}

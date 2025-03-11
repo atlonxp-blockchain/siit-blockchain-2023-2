@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@600&display=swap");
+
+/* Overall Container */
+.center {
+  width: 30%; /* Adjusted width for better form visibility */
+  margin: auto;
+  padding: 40px;
+  background: #2c3e50; /* Dark background for a moody vibe */
+  border: solid 1px #34495e; /* Complementing darker border */
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Deeper shadow for contrast */
+  font-family: 'Sansita Swashed', cursive; /* Elegant font */
+  color: #ecf0f1; /* Light text for readability */
+}
+
+/* Header Style */
+.center h1 {
+  font-size: 2em; /* Prominent size */
+  color: #ecf0f1; /* Light text on dark background */
+  margin-bottom: 40px;
+  padding-left: 15px;
+  font-weight: 600;
+  border-left: 4px solid #95a5a6; /* Subtle contrast border */
+}
+
+/* Input Box */
+.center .inputbox {
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+/* Input Field */
+.center .inputbox input {
+  width: 100%;
+  border: 2px solid #7f8c8d; /* Muted border color */
+  background: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 1em;
+  color: #ecf0f1; /* Light text */
+  background-color: #34495e; /* Dark input background */
+}
+
+/* Label Animation */
+.center .inputbox span {
+  top: 10px;
+  left: 15px;
+  color: #95a5a6; /* Muted label color */
+  transition: all 0.3s ease;
+}
+
+/* Focus and Valid Input Style */
+.center .inputbox input:focus,
+.center .inputbox input:valid {
+  border-color: #18bc9c; /* Highlight color on focus */
+}
+
+.center .inputbox input:focus ~ span,
+.center .inputbox input:valid ~ span {
+  transform: translateY(-25px);
+  font-size: 0.85em;
+  color: #18bc9c; /* Highlight color for label */
+}
+
+/* Submit Button */
+.center .inputbox [type="submit"] {
+  width: 60%;
+  background: #18bc9c; /* Calm green tone */
+  color: #ffffff;
+  border: none;
+  padding: 12px 0;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.center .inputbox:hover [type="submit"] {
+  background: #3498db; /* Subtle blue on hover */
+}

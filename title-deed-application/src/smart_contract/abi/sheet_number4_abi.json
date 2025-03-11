@@ -1,0 +1,324 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_sheet_number",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_national_ID",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_land_size",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_holder_name",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_coordinates",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_land_address",
+                "type": "string"
+            },
+            {
+                "internalType": "address[]",
+                "name": "authorized_list",
+                "type": "address[]"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user_address",
+                "type": "address"
+            }
+        ],
+        "name": "authorize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "cancel_document",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_land_size",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_coordinates",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_land_address",
+                "type": "string"
+            }
+        ],
+        "name": "change_region",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user_address",
+                "type": "address"
+            }
+        ],
+        "name": "check_authorize",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "get_hold_history",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "national_ID",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "time_hold",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "parcel_number",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "holder_name",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct land_document.holder[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "get_last_record",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "get_log",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "timestamp",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "invoker",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "description",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct land_document.log_data[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "get_metadata",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            },
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "get_parcel_history",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "uint256",
+                        "name": "parcel_number",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "land_size",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "assign_time",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "coordinates",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "land_address",
+                        "type": "string"
+                    }
+                ],
+                "internalType": "struct land_document.region[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "reactivate",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "user_address",
+                "type": "address"
+            }
+        ],
+        "name": "revoke",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_national_ID",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_holder_name",
+                "type": "string"
+            }
+        ],
+        "name": "transfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]

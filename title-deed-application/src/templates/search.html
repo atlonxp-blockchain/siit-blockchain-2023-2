@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Submit Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="../static/css/template.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.3.5/dist/web3.min.js"></script>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        {% if alert %}
+            <script>alert("{{alert}}")</script>
+        {% endif %}
+        
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid">
+            <a class="navbar-brand" href="javascript:void(0)"><img src="../static/img/logo.png" width="48px"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Title Deed Finder</a>
+                </li>
+                </ul>
+                {% if session['account_address'] is not defined or session['account_address'] is none %}
+                <button class="btn btn-primary" type="button" id="connect-metamask">Officer Log in</button>
+                <script src="../static/script/metamask_connect.js"></script>
+                {% else %}
+                <button class="btn btn-danger" type="button" onclick="window.location.href = '/logout'">Log out</button>
+                {% endif %}
+                
+        </nav>
+        <body>
+
+            {% if metadata != None %}
+            <div>
+                <p>Sheet_number: {{metadata.sheet_number}}</p>
+                <p>Create_time: {{metadata.formatted_create_time}}</p>
+                <p>Assigner Address: {{metadata.assigner_address}}</p>
+                <p>Active: {{metadata.active}}</p>
+            </div>
+            <hr>
+            <div>
+                <h1>Lastest Hold Record</h1>
+                <p>holder_ID: {{last_record.holder_national_ID}}</p>
+                <p>hold_time: {{last_record.holder_hold_time}}</p>
+                <p>holder_name: {{last_record.holder_name}}</p>
+                <p>hold_record_time: {{last_record.holder_hold_time}}</p>
+
+                <div class="container">
+                    <button type="button" class="btn btn-success" id="button-view-hold-record" data-bs-toggle="modal" data-bs-target="#view-hold-record">
+                        Log
+                    </button>
+                
+                    <!-- Modal -->
+                    <div class="modal fade" id="view-hold-record" tabindex="-1" aria-labelledby="view-hold-record-label" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="view-hold-record-label">View Full Record</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    <div>
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                                <th>National_ID</th>
+                                                <th>Holder name</th>
+                                                <th>Record Time</th>
+                                                <th>Parcel Number</th>
+                                            </thead>
+                                            <tbody id="table-record">
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                    {% if permission == True %}
+                                    <hr>
+                                    <h1>For transfer</h1>
+                                    <form action="/transfer" method="POST">
+                                        <input type="hidden" name="sheet_number" value="{{metadata.sheet_number}}">
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">New Holder National ID</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="national_ID" required>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">New Holder Title</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="holder_title" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">New Holder First Name</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="holder_firstname" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">New Holder Middle Name</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="holder_middlename" value="-">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">New Holder Last Name</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="holder_lastname" required>
+                                            </div>
+                                        </div>
+
+                                        <input type="submit" value="Transfer">
+                                    </form>
+                                    {% endif %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        document.getElementById("button-view-hold-record").addEventListener("click",() => {
+                            var payload = {
+                            "sheet_number": '{{metadata.sheet_number}}'};
+
+                            fetch("/get_hold_history", {
+                                method: "POST",
+                                body: JSON.stringify(payload),
+                                headers: {
+                                    "Content-Type": "application/json"
+                            }
+                            }).then(response =>{
+                                if(response.status === 200){
+                                    response.json().then(data =>{
+                                        var table = document.getElementById("table-record");
+                                        table.innerHTML = "";
+                                        table.textContent = "";
+
+                                        for (var i = 0; i < data["output"].length; i++) {
+                                            var row = table.insertRow(i);
+                                            var cell1 = row.insertCell(0);
+                                            var cell2 = row.insertCell(1);
+                                            var cell3 = row.insertCell(2);
+                                            var cell4 = row.insertCell(3);
+                                            cell1.innerHTML = data["output"][i]["holder_national_ID"];
+                                            cell2.innerHTML = data["output"][i]["holder_name"];
+                                            cell3.innerHTML = data["output"][i]["holder_hold_time"];
+                                            cell4.innerHTML = data["output"][i]["parcel_number"];
+                                        }
+
+                                    });
+
+                                } else{
+                                    alert("Fail to request to blockchain")
+                                }
+                            }).catch(error=>{
+                                alert("Error: ",error);
+                            })
+                        })
+                        
+                    </script>
+
+                </div>
+
+            </div>
+            <hr>
+            <div>
+                <h1>Lastest Parcel Record</h1>
+                <p>parcel_number: {{last_record.parcel_number}}</p>
+                <p>land_size: {{last_record.land_size}}</p>
+                <p>record_time: {{last_record.assign_time}}</p>
+                <p>land_coordinate: {{last_record.coordinates}}</p>
+                <p>land_address: {{last_record.land_address}}</p>
+                {% if image_land %}
+                    <img src="data:image/png;base64,{{ image_land }}" alt="Land Image">
+                {% endif %}
+                <div class="container">
+                    <button type="button" class="btn btn-success" id="button-view-parcel-record" data-bs-toggle="modal" data-bs-target="#view-parcel-record">
+                        Log
+                    </button>
+                
+                    <!-- Modal -->
+                    <div class="modal fade" id="view-parcel-record" tabindex="-1" aria-labelledby="view-parcel-record-label" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="view-parcel-record-label">View Full Record</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    <div style="word-wrap: break-word">
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                                <th>parcel number</th>
+                                                <th>land size</th>
+                                                <th>record time</th>
+                                                <th>coordinates</th>
+                                                <th>land address</th>
+                                            </thead>
+                                            <tbody id="table-record-parcel">
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    {% if permission == True %}
+                                    <hr>
+                                    <h1>For Modify Parcel</h1>
+                                    <form action="/change_region" method="POST">
+                                        <input type="hidden" name="sheet_number" value="{{metadata.sheet_number}}">
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">New Land Size</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="land_size" required>
+                                            </div>
+            
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">New Land Coordinate</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="coordinate" required>
+                                            </div>
+                                        </div>
+                                        <p>New Land Address</p>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">House address</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="house_number" value="-">
+                                            </div>
+                                            
+                                        </div>
+
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">Road</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="road" value="-">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">Soi</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="soi" value="-">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">Sub District</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="sub_district" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">District</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="district" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">Province</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="province" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">Country</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="country" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 col-form-label">Postal Code</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control-plaintext border ps-2" name="postal_code" value="-">
+                                            </div>
+                                        </div>
+
+                                        <input type="submit" value="Change">
+                                    </form>
+                                    {% endif %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        document.getElementById("button-view-parcel-record").addEventListener("click",() => {
+                            var payload = {
+                            "sheet_number": '{{metadata.sheet_number}}'};
+
+                            fetch("/get_parcel_history", {
+                                method: "POST",
+                                body: JSON.stringify(payload),
+                                headers: {
+                                    "Content-Type": "application/json"
+                            }
+                            }).then(response =>{
+                                if(response.status === 200){
+                                    response.json().then(data =>{
+                                        var table = document.getElementById("table-record-parcel");
+                                        table.innerHTML = "";
+                                        table.textContent = "";
+
+                                        for (var i = 0; i < data["output"].length; i++) {
+                                            var row = table.insertRow(i);
+                                            var cell1 = row.insertCell(0);
+                                            var cell2 = row.insertCell(1);
+                                            var cell3 = row.insertCell(2);
+                                            var cell4 = row.insertCell(3);
+                                            var cell5 = row.insertCell(4);
+
+                                            // Apply styles to allow text wrapping
+                                            cell1.style.whiteSpace = "normal";
+                                            cell2.style.whiteSpace = "normal";
+                                            cell3.style.whiteSpace = "normal";
+                                            cell4.style.whiteSpace = "normal";
+                                            cell5.style.whiteSpace = "normal";
+
+                                            // Allow breaking long words
+                                            cell1.style.wordBreak = "break-all";
+                                            cell2.style.wordBreak = "break-all";
+                                            cell3.style.wordBreak = "break-all";
+                                            cell4.style.wordBreak = "break-all";
+                                            cell5.style.wordBreak = "break-all";
+
+                                            cell1.innerHTML = data["output"][i]["parcel_number"];
+                                            cell2.innerHTML = data["output"][i]["land_size"];
+                                            cell3.innerHTML = data["output"][i]["create_time"];
+                                            cell4.innerHTML = data["output"][i]["coordinates"];
+                                            cell5.innerHTML = data["output"][i]["land_address"];
+                                        }
+
+                                    });
+
+                                } else{
+                                    alert("Fail to request to blockchain")
+                                }
+                            }).catch(error=>{
+                                alert("Error: ",error);
+                            })
+                        })
+                        
+                    </script>
+
+                </div>
+
+                <div class="container">
+                    <button type="button" class="btn btn-success" id="button-view-log" data-bs-toggle="modal" data-bs-target="#view-log">
+                        Log
+                    </button>
+                
+                    <!-- Modal -->
+                    <div class="modal fade" id="view-log" tabindex="-1" aria-labelledby="view-log-label" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="view-record-label">View Log</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    <div>
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                                <th>Record Time</th>
+                                                <th>Invoker</th>
+                                                <th>Detail</th>
+                                            </thead>
+                                            <tbody id="table-log">
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        document.getElementById("button-view-log").addEventListener("click",() => {
+                            var payload = {
+                            "sheet_number": '{{metadata.sheet_number}}'};
+
+                            fetch("/get_log_doc", {
+                                method: "POST",
+                                body: JSON.stringify(payload),
+                                headers: {
+                                    "Content-Type": "application/json"
+                            }
+                            }).then(response =>{
+                                if(response.status === 200){
+                                    response.json().then(data =>{
+                                        var table = document.getElementById("table-log");
+                                        table.innerHTML = "";
+                                        table.textContent = "";
+
+                                        for (var i = 0; i < data["output"].length; i++) {
+                                            var row = table.insertRow(i);
+                                            var cell1 = row.insertCell(0);
+                                            var cell2 = row.insertCell(1);
+                                            var cell3 = row.insertCell(2);
+
+                                            cell1.innerHTML = data["output"][i][0];
+                                            cell2.innerHTML = data["output"][i][1];
+                                            cell3.innerHTML = data["output"][i][2];
+                                        }
+
+                                    });
+
+                                } else{
+                                    alert("Fail to request to blockchain")
+                                }
+                            }).catch(error=>{
+                                alert("Error: ",error);
+                            })
+                        })
+                        
+                    </script>
+
+                
+                </div>
+                {% if permission == True %}
+                <div>
+                    {% if metadata.active == True %}
+                    <script>
+                        function deactivateDocument(sheetNumber) {
+                            // Assuming you are using the Fetch API for the POST request
+                            fetch('/cancel_document', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    sheet_number: sheetNumber,
+                                }),
+                            })
+                            .then(response => {
+                                // Handle the response if needed
+                                location.reload();
+                            })
+                            .catch(error => {
+                                // Handle errors if needed
+                                console.error('Error:', error);
+                            });
+                        }
+                    </script>
+
+                    <button class="btn btn-danger" onclick="deactivateDocument('{{metadata.sheet_number}}')">Deactivate</button>
+
+                    {% else %}
+
+                    <script>
+                        function reactivateDocument(sheetNumber) {
+                            // Assuming you are using the Fetch API for the POST request
+                            fetch('/reactivate', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    sheet_number: sheetNumber,
+                                }),
+                            })
+                            .then(response => {
+                                // Handle the response if needed
+                                location.reload();
+                            })
+                            .catch(error => {
+                                // Handle errors if needed
+                                console.error('Error:', error);
+                            });
+                        }
+                        </script>
+
+                    <button class="btn btn-warning" onclick="reactivateDocument('{{metadata.sheet_number}}')">Reactivate</button>
+ 
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            {% else %}
+            <h1>Sheet number {{search_key}} not found</h1>
+            {% endif %}
+        </body>
+    </body>
+</html>

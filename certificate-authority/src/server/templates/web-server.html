@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CSR Encryption</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="icon" href="data:,">
+    <script type="module" src="{{ url_for('static', filename='js/forge.min.js') }}"></script>
+</head>
+<body>
+<div>
+    <main class="container">
+        <form action="{{ url_for('web_server_encrypt') }}" method="post" enctype="multipart/form-data">
+            <div class="row mb-5">
+                <h1>CSR Encryption</h1>
+            </div>
+            <div class="row mb-5">
+                <div class="pb-2">
+                    <label class="form-label" for="private_key">Private Key</label>
+                    <input name="private_key" id="private_key" class="form-control" type="text" required>
+                </div>
+                <div class="pb-2">
+                    <label for="formCsrFile" class="form-label">CSR File</label>
+                    <input type="file" name="csr" id="formCsrFile" accept=".csr" class="form-control" lang="en"
+                           required>
+                </div>
+            </div>
+            <div class="row mb-3" id="info-box" hidden="hidden">
+                <div class="col">
+                    <div class="card h-100">
+                        <p class="card-header">Raw CSR</p>
+                        <div class="card-body">
+                            <code id="csr-raw"></code>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card mb-3">
+                        <p class="card-header">Information</p>
+                        <p id="csr-detail" class="card-body"></p>
+                    </div>
+                    <div class="card">
+                        <p class="card-header">CSR Public Key</p>
+                        <div class="card-body">
+                            <code id="csr-public-key"></code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </main>
+</div>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/web-server.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CA Register</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+<div class="mb-5">
+  <input type="hidden" id="page" value="register">
+  <main class="container">
+    <form action="http://localhost:5000/register" method="post" enctype="multipart/form-data">
+      <div class="row py-3">
+        <div class="col">
+          <h1>Register</h1>
+        </div>
+      </div>
+
+      <div class="row pb-3">
+        <div class="col">
+          <p id="address"></p>
+          <p id="error" class="alert alert-danger"></p>
+          <div class="btn btn-success" id="auth-button">Connect with MetaMask</div>
+        </div>
+      </div>
+
+      <div class="row pb-3">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <div class="mb-2 row">
+                <label class="col-sm-2 col-form-label" for="domain-name">Domain Name</label>
+                <div class="col-sm-10">
+                  <input id="domain-name" name="domain-name" class="form-control" type="text" disabled required>
+                </div>
+              </div>
+              <div class="mb-2 row">
+                <label class="col-sm-2 col-form-label" for="private-key">ETH Private Key</label>
+                <div class="col-sm-10">
+                  <input id="private-key" name="private-key" class="form-control" type="text" disabled required>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <input type="submit" class="col btn btn-primary disabled" id="register-button" value="Register Domain">
+      <div id="reset-button" class="col btn btn-outline-secondary">Reset</div>
+    </form>
+  </main>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/forge.min.js"></script>
+  <script type="module">
+    import {ethers} from "./js/ethers.min.js";
+    window.ethers = ethers;
+  </script>
+  <script src="js/index.js"></script>
+</div>
+</body>
+</html>

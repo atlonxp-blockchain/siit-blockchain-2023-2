@@ -1,0 +1,255 @@
+[
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "pollId",
+                "type": "string"
+            }
+        ],
+        "name": "PollClosed",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "pollId",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "question",
+                "type": "string"
+            },
+            {
+                "indexed": false,
+                "internalType": "string[]",
+                "name": "options",
+                "type": "string[]"
+            },
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "imageUrl",
+                "type": "string"
+            }
+        ],
+        "name": "PollCreated",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "string",
+                "name": "pollId",
+                "type": "string"
+            },
+            {
+                "indexed": true,
+                "internalType": "address",
+                "name": "voter",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "optionIndex",
+                "type": "uint256"
+            }
+        ],
+        "name": "VoteCast",
+        "type": "event"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "pollId",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "optionIndex",
+                "type": "uint256"
+            }
+        ],
+        "name": "castVote",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "pollId",
+                "type": "string"
+            }
+        ],
+        "name": "closePoll",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "question",
+                "type": "string"
+            },
+            {
+                "internalType": "string[]",
+                "name": "options",
+                "type": "string[]"
+            },
+            {
+                "internalType": "string",
+                "name": "imageUrl",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_timestamp",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "_pollId",
+                "type": "string"
+            }
+        ],
+        "name": "createPoll",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getPollList",
+        "outputs": [
+            {
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "pollId",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "optionIndex",
+                "type": "uint256"
+            }
+        ],
+        "name": "getVoteCount",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "name": "polls",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "creator",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "question",
+                "type": "string"
+            },
+            {
+                "internalType": "bool",
+                "name": "isClosed",
+                "type": "bool"
+            },
+            {
+                "internalType": "uint256",
+                "name": "creationTime",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "imageUrl",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "pollId",
+                "type": "string"
+            }
+        ],
+        "name": "viewPoll",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            },
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            },
+            {
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            },
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            },
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]

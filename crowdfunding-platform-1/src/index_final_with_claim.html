@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowdfunding DApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        .campaign {
+            background: #fff;
+            border: #ddd solid 1px;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        .campaign h3 {
+            margin-top: 0;
+        }
+        .campaign-info {
+            text-align: left;
+        }
+        button {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+    type="application/javascript"></script>    
+    <script src="app.js"></script>
+    <div class="container">
+        <h1>Crowdfunding DApp</h1>
+        <p>Connect to your Ethereum wallet to start using the DApp</p>
+        <button id="walletButton">Connect Wallet</button>
+
+        <h2>Start a Campaign</h2>
+        <input type="text" id="campaignDescription" placeholder="Campaign Description">
+        <input type="number" id="campaignGoal" placeholder="Campaign Goal (in ETH)">
+        <input type="number" id="campaignDuration" placeholder="Duration (in days)">
+        <button id="startCampaignButton">Start Campaign</button>
+
+        <h2>Current Campaigns</h2>
+        <div id="campaigns">
+            <!-- Campaigns will be loaded here -->
+        </div>
+    </div>
+
+    
+
+<h2>Pledge to a Campaign</h2>
+<div class="pledge-section">
+    <input type="number" id="campaignId" placeholder="Campaign ID">
+    <input type="number" id="pledgeAmount" placeholder="Pledge Amount (in ETH)">
+    <button id="pledgeButton">Pledge to Campaign</button>
+</div>
+
+<h2>Claim Campaign Funds</h2>
+<div class="claim-section">
+    <input type="number" id="claimCampaignId" placeholder="Campaign ID to Claim">
+    <button id="claimFundsButton">Claim Funds</button>
+</div>
+</body>
+</html>

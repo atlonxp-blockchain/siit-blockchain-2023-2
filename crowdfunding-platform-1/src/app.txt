@@ -1,0 +1,308 @@
+const contractAddress = "0xC3981098fC302bcD2188426b04Ab5c01b2f95397";
+const contractABI = [
+    [
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "campaignId",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "creator",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "string",
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "goal",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "duration",
+                    "type": "uint256"
+                }
+            ],
+            "name": "CampaignStarted",
+            "type": "event"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "campaignId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Claimed",
+            "type": "event"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "campaignId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "claimFunds",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "campaignId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "pledge",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "campaignId",
+                    "type": "uint256"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "address",
+                    "name": "donor",
+                    "type": "address"
+                },
+                {
+                    "indexed": false,
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                }
+            ],
+            "name": "Pledged",
+            "type": "event"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "string",
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "goal",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "duration",
+                    "type": "uint256"
+                }
+            ],
+            "name": "startCampaign",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "campaigns",
+            "outputs": [
+                {
+                    "internalType": "address payable",
+                    "name": "creator",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "goal",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "pledged",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "end",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "claimed",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "campaignId",
+                    "type": "uint256"
+                }
+            ],
+            "name": "getCampaign",
+            "outputs": [
+                {
+                    "internalType": "address",
+                    "name": "creator",
+                    "type": "address"
+                },
+                {
+                    "internalType": "string",
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "goal",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "pledged",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "end",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bool",
+                    "name": "claimed",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+    ]
+];
+
+let provider;
+let signer;
+let contract;
+
+window.onload = function() {
+    document.getElementById('walletButton').addEventListener('click', connectWallet);
+    document.getElementById('startCampaignButton').addEventListener('click', startCampaign);
+};
+
+// Connect to the user's wallet
+async function connectWallet() {
+    if (typeof window.ethereum !== 'undefined') {
+        try {
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            signer = provider.getSigner();
+            contract = new ethers.Contract(contractAddress, contractABI, signer);
+
+            console.log("Wallet connected!");
+        } catch (error) {
+            console.error("Could not connect to wallet", error);
+        }
+    } else {
+        console.error("Metamask not found");
+    }
+}
+
+// Start a new campaign
+async function startCampaign() {
+    const description = document.getElementById('campaignDescription').value;
+    const goal = ethers.parseEther("document.getElementById('campaignGoal').value");
+    const duration = document.getElementById('campaignDuration').value * 24 * 60 * 60;
+
+    try {
+        const tx = await contract.startCampaign(description, goal, duration);
+        await tx.wait();
+        console.log("Campaign started!");
+    } catch (error) {
+        console.error("Error starting campaign", error);
+    }
+}
+
+// Load and display existing campaigns
+async function loadCampaigns() {
+    // Fetch campaigns from the contract and display them
+}
+
+// Function to handle pledge action
+async function pledgeToCampaign() {
+    const campaignId = document.getElementById('campaignId').value;
+    const pledgeAmount = document.getElementById('pledgeAmount').value;
+
+    if (!campaignId || !pledgeAmount) {
+        console.error("Campaign ID and Pledge Amount are required");
+        return;
+    }
+
+    try {
+        const amountInWei = ethers.utils.parseEther(pledgeAmount);
+        const tx = await contract.pledge(campaignId, { value: amountInWei });
+        await tx.wait();
+        console.log("Pledged successfully!");
+    } catch (error) {
+        console.error("Error during pledge:", error);
+    }
+}
+
+// Adding event listener for the pledge button
+document.getElementById('pledgeButton').addEventListener('click', pledgeToCampaign);
+
+// Function to handle claim funds action
+async function claimCampaignFunds() {
+    const campaignId = document.getElementById('claimCampaignId').value;
+
+    if (!campaignId) {
+        console.error("Campaign ID is required");
+        return;
+    }
+
+    try {
+        const tx = await contract.claimFunds(campaignId);
+        await tx.wait();
+        console.log("Funds claimed successfully!");
+    } catch (error) {
+        console.error("Error during claim:", error);
+    }
+}
+
+// Adding event listener for the claim funds button
+document.getElementById('claimFundsButton').addEventListener('click', claimCampaignFunds);

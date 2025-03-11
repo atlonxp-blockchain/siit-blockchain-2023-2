@@ -1,0 +1,54 @@
+.memos-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.memos-title {
+    text-align: center;
+    color: #000000; /* Black for the title */
+}
+
+.memos-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #F0F0F0; /* Light grey for text */
+}
+
+.memos-table td {
+    background-color: #34495e; /* Dark grey background */
+    border: 1.5px solid #000000; /* Slightly lighter border for subtle contrast */
+    padding: 7px;
+}
+
+.memo-name {
+    width: 100px;
+}
+
+.memo-timestamp {
+    width: 800px;
+}
+
+.memo-message {
+    width: 300px;
+}
+
+.memo-from {
+    width: 400px;
+}
+
+/* Additional styling for a bit of color */
+.memo-name {
+    color: #ffffff; 
+}
+
+.memo-timestamp {
+    color: #ffffff; 
+}
+
+.memo-message {
+    color: #F0F0F0; 
+}
+
+.memo-from {
+    color: #FF9800; /* Orange for 'from' field */
+}

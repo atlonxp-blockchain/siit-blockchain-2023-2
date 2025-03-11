@@ -1,0 +1,44 @@
+
+.ctn{
+    background-color: #E2E2E2;
+}
+
+#rightPanel{
+    width: 100%;
+}
+
+/* stylesheet.css */
+.container-full {
+    width: '100%'; /* Set your desired width */
+    margin: 0 auto; /* Center the container */
+}
+
+.container-book{
+    width: 177px;
+    margin: 0 auto; /* Center the container */
+
+}
+
+.container-bookshelf{
+    width: 152px;
+    margin: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 0;
+}
+
+.container-profile{
+    padding: auto;
+    /* width: 200px; */
+    margin: auto;
+}
+
+.text-lightgreen{
+    color: #2CB56B;
+}
+
+.bg-lightgreen{
+    background-color: #2CB56B; 
+}
+
+/*# sourceMappingURL=/stylesheet.727f2e5c.css.map */

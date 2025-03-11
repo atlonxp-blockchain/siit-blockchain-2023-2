@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Officer Homepage</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="../static/css/template.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>    
+    </head>
+    <body>
+
+        {% if alert %}
+            <script>alert("{{alert}}")</script>
+        {% endif %}
+        
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid">
+            <a class="navbar-brand" href="javascript:void(0)"><img src="../static/img/logo.png" width="48px"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Title Deed Finder</a>
+                </li>
+                </ul>
+                <button class="btn btn-danger" type="button" onclick="window.location.href = '/logout'">Log out</button>
+        </nav>
+
+        <div class="container mt-3">
+            <h2>Title Deed List</h2>
+            <p>list of title deed managed by {{session.account_address}}</p>            
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Issuer</th>
+                  <th>Date Issue</th>
+                  <th>Active</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in metadata_list %}
+                <tr>
+                    <td>{{i.sheet_number}}</td>
+                    <td>{{i.assigner_address}}</td>
+                    <td>{{i.formatted_create_time}}</td>
+                    <td>{{i.active}}</td>
+                    <td><button onclick="window.location.href = '/search?search_key={{i.sheet_number}}'">View</button></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+            <hr>        
+            <h1>For Add New Title Deed</h1>
+
+            <form action="/add_land_doc" method="POST">
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">National ID</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext border ps-2" name="national_ID" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Title</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext border ps-2" name="holder_title" required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">First Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext border ps-2" name="holder_firstname" required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Middle Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext border ps-2" name="holder_middlename" required>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Last Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext border ps-2" name="holder_lastname" required>
+                    </div>
+                </div>   
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Land Size</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control-plaintext border ps-2" name="land_size" id="land_size" required>
+                    </div>
+
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Land Coordinate</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control-plaintext border ps-2" name="coordinate" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Authorize List</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control-plaintext border ps-2" name="authorized_list" required>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">Automatically Calculate Land Area</label>
+                    <div class="col-sm-10">
+                      <input type="radio" class="form-control-plaintext border ps-2" name="manual_land" value="check">
+                    </div>
+                </div>
+                <hr>
+                <p>New Land Address</p>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">House Number</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext border ps-2" name="house_number" required>
+                    </div>
+                </div> 
+
+                <div class="mb-3 row">
+                    <label class="col-sm-2 col-form-label">road</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control-plaintext border ps-2" name="road">
+                    </div>
+                </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">soi</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext border ps-2" name="soi">
+                        </div>
+                    </div> 
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Subdistrict</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext border ps-2" name="sub_district" required>
+                        </div>
+                    </div> 
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">District</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext border ps-2" name="district" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Province</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext border ps-2" name="province" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Country</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext border ps-2" name="country" required>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Postal Code</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control-plaintext border ps-2" name="postal_code" required>
+                        </div>
+                    </div>
+                    <input type="submit" value="add">
+                </form>
+                </div> 
+                
+            </div>
+
+                
+            
+          </div>
+          
+
+    </body>
+</html>

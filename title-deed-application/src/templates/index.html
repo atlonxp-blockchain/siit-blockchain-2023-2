@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Submit Document</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+        <link rel="stylesheet" href="../static/css/template.css">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/web3@1.3.5/dist/web3.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        {% if alert %}
+            <script>alert("{{alert}}")</script>
+        {% endif %}
+
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid">
+            <a class="navbar-brand" href="javascript:void(0)"><img src="../static/img/logo.png" width="48px"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Title Deed Finder</a>
+                </li>
+                </ul>
+                {% if session['account_address'] is not defined or session['account_address'] is none %}
+                <button class="btn btn-primary" type="button" id="connect-metamask">Officer Log in</button>
+                <script src="../static/script/metamask_connect.js"></script>
+                {% else %}
+                <button class="btn btn-danger" type="button" onclick="window.location.href = '/logout'">Log out</button>
+                {% endif %}
+                
+        </nav>
+        <div class="d-flex p-2 flex-column align-items-center m-5">
+            <p class="h1">You can easily find your deed title here</p>
+
+        </div>
+
+        <div class="input-group" style="width:50%; margin: 50px auto;">
+            <input type="text" class="form-control" placeholder="Search deed title here" id="search-key">
+            <div class="input-group-append">
+                <button class="btn btn-secondary" type="button" id="search-button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+        
+        <script>
+            // Function to handle the search
+            function performSearch() {
+                // Get the search key from the input field
+                var searchKey = document.getElementById("search-key").value;
+        
+                // Construct the URL with the search key
+                var url = "/search?search_key=" + encodeURIComponent(searchKey);
+        
+                // Navigate to the new URL
+                window.location.href = url;
+            }
+        
+            // Add event listener to the search button
+            document.getElementById("search-button").addEventListener("click", performSearch);
+        
+            // Add event listener to the input field for "Enter" key
+            document.getElementById("search-key").addEventListener("keyup", function(event) {
+                if (event.key === "Enter") {
+                    performSearch();
+                }
+            });
+        </script>
+
+        <img src="../static/img/logo.png" class="mx-auto d-block" height="300vh">
+        
+    </body>
+</html>
